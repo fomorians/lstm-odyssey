@@ -1,3 +1,4 @@
+import tensorflow as tf
 from tensorflow.models.rnn import rnn_cell
 
 class NIGLSTMCell(rnn_cell.RNNCell):

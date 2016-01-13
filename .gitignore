@@ -1,3 +1,5 @@
 .DS_Store
 *.pyc
 .env/
+.ipynb_checkpoints/
+ptb/
