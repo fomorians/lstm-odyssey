@@ -15,7 +15,7 @@ class FGRLSTMCell(rnn_cell.RNNCell):
 
     @property
     def state_size(self):
-        return 2 * self._num_blocks
+        return 5 * self._num_blocks
 
     def __call__(self, inputs, state, scope=None):
         with tf.variable_scope(scope or type(self).__name__):
