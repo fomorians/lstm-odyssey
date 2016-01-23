@@ -45,7 +45,7 @@ class NFGLSTMCell(rnn_cell.RNNCell):
 
             z = g(tf.matmul(inputs, W_z) + tf.matmul(y_prev, R_z) + b_z)
             i = tf.sigmoid(tf.matmul(inputs, W_i) + tf.matmul(y_prev, R_i) + tf.mul(c_prev, p_i) + b_i)
-            f = 1
+            f = 1.0
             c = tf.mul(i, z) + tf.mul(f, c_prev)
             o = tf.sigmoid(tf.matmul(inputs, W_o) + tf.matmul(y_prev, R_o) + tf.mul(c, p_o) + b_o)
             y = tf.mul(h(c), o)

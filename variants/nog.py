@@ -47,7 +47,7 @@ class NOGLSTMCell(rnn_cell.RNNCell):
             i = tf.sigmoid(tf.matmul(inputs, W_i) + tf.matmul(y_prev, R_i) + tf.mul(c_prev, p_i) + b_i)
             f = tf.sigmoid(tf.matmul(inputs, W_f) + tf.matmul(y_prev, R_f) + tf.mul(c_prev, p_f) + b_f)
             c = tf.mul(i, z) + tf.mul(f, c_prev)
-            o = 1
+            o = 1.0
             y = tf.mul(h(c), o)
 
             return y, tf.concat(1, [c, y])

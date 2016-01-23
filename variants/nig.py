@@ -44,7 +44,7 @@ class NIGLSTMCell(rnn_cell.RNNCell):
             g = h = tf.tanh
 
             z = g(tf.matmul(inputs, W_z) + tf.matmul(y_prev, R_z) + b_z)
-            i = 1
+            i = 1.0
             f = tf.sigmoid(tf.matmul(inputs, W_f) + tf.matmul(y_prev, R_f) + tf.mul(c_prev, p_f) + b_f)
             c = tf.mul(i, z) + tf.mul(f, c_prev)
             o = tf.sigmoid(tf.matmul(inputs, W_o) + tf.matmul(y_prev, R_o) + tf.mul(c, p_o) + b_o)
