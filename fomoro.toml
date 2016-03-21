@@ -1,0 +1,4 @@
+name = "lstm-odyssey"
+repo = "https://github.com/fomorians/lstm-odyssey.git"
+description = "Variants from LSTM: A Search Space Odyssey"
+environment = "tensorflow"
