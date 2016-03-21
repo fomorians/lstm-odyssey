@@ -5,6 +5,7 @@ from __future__ import print_function
 import os
 import time
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 
 from tensorflow.models.rnn import rnn_cell
@@ -27,6 +28,7 @@ from variants.fgr import FGRLSTMCell
 # define artifact directories where results from the session can be saved
 model_path = os.environ.get('MODEL_PATH', 'models/')
 checkpoint_path = os.environ.get('CHECKPOINT_PATH', 'checkpoints/')
+summary_path = os.environ.get('SUMMARY_PATH', 'logs/')
 
 # load dataset
 train_data, valid_data, test_data, _ = ptb_reader.ptb_raw_data("ptb")
@@ -213,13 +215,13 @@ with tf.Graph().as_default(), tf.Session() as sess:
         valid_costs.append(valid_cost)
         valid_perps.append(valid_perp)
 
-        write_csv(train_costs, os.path.join(summary_path, "train_costs.csv"))
-        write_csv(train_perps, os.path.join(summary_path, "train_perps.csv"))
-        write_csv(valid_costs, os.path.join(summary_path, "valid_costs.csv"))
-        write_csv(valid_perps, os.path.join(summary_path, "valid_perps.csv"))
-
         saver.save(sess, checkpoint_path + 'checkpoint')
 
     # run test pass
     test_cost, test_perp = run_epoch(sess, test_model, test_data)
     print("Test Perplexity: %.3f (Cost: %.3f)" % (test_perp, test_cost))
+
+    write_csv(train_costs, os.path.join(summary_path, "train_costs.csv"))
+    write_csv(train_perps, os.path.join(summary_path, "train_perps.csv"))
+    write_csv(valid_costs, os.path.join(summary_path, "valid_costs.csv"))
+    write_csv(valid_perps, os.path.join(summary_path, "valid_perps.csv"))

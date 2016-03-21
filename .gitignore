@@ -3,5 +3,5 @@
 .env/
 .ipynb_checkpoints/
 ptb/
+logs/
 models/
-
