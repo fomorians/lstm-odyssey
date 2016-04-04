@@ -11,8 +11,7 @@ Check out the [blog post](https://medium.com/jim-fleming/implementing-lstm-a-sea
 1. Follow the [installation guide](https://fomoro.gitbooks.io/guide/content/installation.html) for Fomoro.
 2. Clone the repo: `git clone https://github.com/fomorians/lstm-odyssey.git && cd lstm-odyssey`
 3. Create a new model: `fomoro model create`
-4. Start training: `fomoro session start`
-5. Follow the logs: `fomoro session logs -f`
+4. Start training: `fomoro session start -f`
 
 ### Local Setup
 
