@@ -210,7 +210,7 @@ with tf.Graph().as_default(), tf.Session() as sess:
         train_perps.append(train_perp)
 
         # run validation pass
-        valid_cost, valid_perplexity = run_epoch(sess, valid_model, valid_data)
+        valid_cost, valid_perp = run_epoch(sess, valid_model, valid_data)
         print("Epoch: %i Validation Perplexity: %.3f (Cost: %.3f)" % (i + 1, valid_perp, valid_cost))
         valid_costs.append(valid_cost)
         valid_perps.append(valid_perp)
