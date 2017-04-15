@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.models.rnn import rnn_cell
+import tensorflow.contrib.rnn as rnn_cell
 
 class VanillaLSTMCell(rnn_cell.RNNCell):
     def __init__(self, num_blocks):
@@ -24,7 +24,7 @@ class VanillaLSTMCell(rnn_cell.RNNCell):
             def get_variable(name, shape):
                 return tf.get_variable(name, shape, initializer=initializer, dtype=inputs.dtype)
 
-            c_prev, y_prev = tf.split(1, 2, state)
+            c_prev, y_prev = tf.split(state, 2, 1)
 
             W_z = get_variable("W_z", [self.input_size, self._num_blocks])
             W_i = get_variable("W_i", [self.input_size, self._num_blocks])
@@ -48,10 +48,10 @@ class VanillaLSTMCell(rnn_cell.RNNCell):
             g = h = tf.tanh
 
             z = g(tf.matmul(inputs, W_z) + tf.matmul(y_prev, R_z) + b_z)
-            i = tf.sigmoid(tf.matmul(inputs, W_i) + tf.matmul(y_prev, R_i) + tf.mul(c_prev, p_i) + b_i)
-            f = tf.sigmoid(tf.matmul(inputs, W_f) + tf.matmul(y_prev, R_f) + tf.mul(c_prev, p_f) + b_f)
-            c = tf.mul(i, z) + tf.mul(f, c_prev)
-            o = tf.sigmoid(tf.matmul(inputs, W_o) + tf.matmul(y_prev, R_o) + tf.mul(c, p_o) + b_o)
-            y = tf.mul(h(c), o)
+            i = tf.sigmoid(tf.matmul(inputs, W_i) + tf.matmul(y_prev, R_i) + tf.multiply(c_prev, p_i) + b_i)
+            f = tf.sigmoid(tf.matmul(inputs, W_f) + tf.matmul(y_prev, R_f) + tf.multiply(c_prev, p_f) + b_f)
+            c = tf.multiply(i, z) + tf.multiply(f, c_prev)
+            o = tf.sigmoid(tf.matmul(inputs, W_o) + tf.matmul(y_prev, R_o) + tf.multiply(c, p_o) + b_o)
+            y = tf.multiply(h(c), o)
 
-            return y, tf.concat(1, [c, y])
+            return y, tf.concat([c, y],1)
