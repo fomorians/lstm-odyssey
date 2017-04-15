@@ -8,14 +8,18 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 
-from tensorflow.models.rnn import rnn_cell
-from tensorflow.models.rnn.seq2seq import sequence_loss_by_example
+import tensorflow.contrib.rnn as rnn_cell
+from tensorflow.contrib.legacy_seq2seq import sequence_loss_by_example
+
+#from tensorflow.models.rnn import rnn_cell
+#from tensorflow.models.rnn.seq2seq import sequence_loss_by_example
 
 # parses the dataset
 import ptb_reader
 
 # import variants
 from variants.vanilla import VanillaLSTMCell
+'''
 from variants.nig import NIGLSTMCell
 from variants.nfg import NFGLSTMCell
 from variants.nog import NOGLSTMCell
@@ -24,6 +28,7 @@ from variants.noaf import NOAFLSTMCell
 from variants.np import NPLSTMCell
 from variants.cifg import CIFGLSTMCell
 from variants.fgr import FGRLSTMCell
+'''
 
 # define artifact directories where results from the session can be saved
 model_path = os.environ.get('MODEL_PATH', 'models/')
@@ -80,7 +85,7 @@ class PTBModel(object):
 
         self.final_state = states[-1]
 
-        output = tf.reshape(tf.concat(1, outputs), [-1, size])
+        output = tf.reshape(tf.concat(outputs,1), [-1, size])
         w = tf.get_variable("softmax_w",
                                     [size, vocab_size],
                                     initializer=initializer)
@@ -91,6 +96,8 @@ class PTBModel(object):
         weights = tf.ones([batch_size * num_steps]) # used to scale the loss average
 
         # computes loss and performs softmax on our fully-connected output layer
+	#Line changed by Luqman        
+	#loss = sequence_loss_by_example([logits], [targets], [weights], vocab_size)
         loss = sequence_loss_by_example([logits], [targets], [weights], vocab_size)
         self.cost = cost = tf.div(tf.reduce_sum(loss), batch_size, name="cost")
 
@@ -116,6 +123,9 @@ def run_epoch(sess, model, data, verbose=False):
     iters = 0
 
     # initial RNN state
+    #state = model.initial_state.eval()
+    
+    model.initial_state = tf.convert_to_tensor(model.initial_state) 
     state = model.initial_state.eval()
 
     for step, (x, y) in enumerate(ptb_reader.ptb_iterator(data, model.batch_size, model.num_steps)):
@@ -158,18 +168,10 @@ eval_config.batch_size = 1
 eval_config.num_steps = 1
 
 # number of epochs to perform over the training data
-num_epochs = 39
+num_epochs = 3
 
 cell_types = {
-    'vanilla': VanillaLSTMCell,
-    'nig': NIGLSTMCell,
-    'nfg': NFGLSTMCell,
-    'nog': NOGLSTMCell,
-    'niaf': NIAFLSTMCell,
-    'noaf': NOAFLSTMCell,
-    'np': NPLSTMCell,
-    'cifg': CIFGLSTMCell,
-    'fgr': FGRLSTMCell,
+    'vanilla': VanillaLSTMCell
 }
 
 model_name = "vanilla"
