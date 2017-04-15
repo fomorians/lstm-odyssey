@@ -1,5 +1,8 @@
 # An LSTM Odyssey
 
+The original LSTM Odyssey code is written for tensorflow versions 0.12. 
+This code works on tensorflow 1.0 
+
 Code for training variants of "LSTM: A Search Space Odyssey" on Fomoro.
 
 Check out the [blog post](https://medium.com/jim-fleming/implementing-lstm-a-search-space-odyssey-7d50c3bacf93).
