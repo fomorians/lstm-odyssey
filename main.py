@@ -8,8 +8,8 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 
-from tensorflow.models.rnn import rnn_cell
-from tensorflow.models.rnn.seq2seq import sequence_loss_by_example
+from tensorflow.python.ops import rnn_cell
+from tensorflow.python.ops.seq2seq import sequence_loss_by_example
 
 # parses the dataset
 import ptb_reader
