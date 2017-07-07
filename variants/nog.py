@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.models.rnn import rnn_cell
+from tensorflow.python.ops.rnn import rnn_cell
 
 class NOGLSTMCell(rnn_cell.RNNCell):
     def __init__(self, num_blocks):
